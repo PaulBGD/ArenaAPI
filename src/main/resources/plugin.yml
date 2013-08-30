@@ -1,0 +1,5 @@
+name: ArenaAPI
+main: me.ultimate.ArenaAPI.ArenaAPIPlugin
+description: Use colors on signs and in chat!
+author: Ultimate
+version: 0.0.1

@@ -1,0 +1,5 @@
+name: ArenaAPI
+version: 1.0.0
+description: An easy API to use for Arenas!
+author: Ultimate 
+main: me.ultimate.ArenaAPI.ArenaAPIPlugin
