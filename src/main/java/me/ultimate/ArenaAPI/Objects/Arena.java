@@ -42,6 +42,7 @@ import me.ultimate.ArenaAPI.Objects.ArenaWarps.WarpType;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.WorldCreator;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.entity.Player;
@@ -77,7 +78,7 @@ public class Arena {
     
     /**
      * Instantiates a new arena.
-     *
+     * 
      * @param name the name
      * @param world the world
      * @param l1 the first location
@@ -95,7 +96,7 @@ public class Arena {
     
     /**
      * Gets the name of the arena.
-     *
+     * 
      * @return the name
      */
     public String getName() {
@@ -104,16 +105,29 @@ public class Arena {
     
     /**
      * Gets the world the arena is in.
-     *
+     * 
      * @return the world
      */
     public World getWorld() {
         return this.world;
     }
     
+    public void reloadWorld(boolean randomSeed) {
+        getWorld().setAutoSave(false);
+        String wName = getWorld().getName();
+        long seed = getWorld().getSeed();
+        Bukkit.getServer().unloadWorld(getWorld(), false);
+        WorldCreator c = new WorldCreator(wName);
+        if (!randomSeed) {
+            c.seed(seed);
+        }
+        this.world = Bukkit.getServer().createWorld(new WorldCreator(wName));
+        getWorld().setAutoSave(true);
+    }
+    
     /**
      * Gets the arena settings.
-     *
+     * 
      * @return the settings
      */
     public ArenaSettings getSettings() {
@@ -122,7 +136,7 @@ public class Arena {
     
     /**
      * Sets the arena settings.
-     *
+     * 
      * @param settings the new settings
      */
     public void setSettings(ArenaSettings settings) {
@@ -131,7 +145,7 @@ public class Arena {
     
     /**
      * Checks if a block is inside the arena.
-     *
+     * 
      * @param b the block
      * @return true, if successful
      */
@@ -141,7 +155,7 @@ public class Arena {
     
     /**
      * Checks if a player is inside the arena.
-     *
+     * 
      * @param p the player
      * @return true, if successful
      */
@@ -151,7 +165,7 @@ public class Arena {
     
     /**
      * Gets the specific warp
-     *
+     * 
      * @param type the warp type
      * @return the warp location
      */
@@ -159,13 +173,13 @@ public class Arena {
         return warps.getWarp(type);
     }
     
-    public void setWarp(WarpType type, Location l){
+    public void setWarp(WarpType type, Location l) {
         warps.setWarp(type, l);
     }
     
     /**
      * Adds the player to the arena.
-     *
+     * 
      * @param p the player
      */
     public void addPlayer(Player p) {
@@ -179,7 +193,7 @@ public class Arena {
     
     /**
      * Removes the player from the arena.
-     *
+     * 
      * @param p the player
      */
     public void removePlayer(Player p) {
@@ -220,7 +234,7 @@ public class Arena {
     
     /**
      * End the arena with a winner.
-     *
+     * 
      * @param p the player
      */
     public void endGameWithWinner(Player p) {
@@ -230,7 +244,7 @@ public class Arena {
     
     /**
      * Teleports a player to the spectation spot
-     *
+     * 
      * @param p the p
      */
     public void teleportSpectator(Player p) {
@@ -239,7 +253,7 @@ public class Arena {
     
     /**
      * Checks if a location is inside the arena.
-     *
+     * 
      * @param l the location
      * @return true, if successful
      */
