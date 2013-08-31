@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.Map;
 
 import me.ultimate.ArenaAPI.ArenaAPI;
+import me.ultimate.ArenaAPI.ArenaAPIPlugin;
 import me.ultimate.ArenaAPI.ArenaEvents.ArenaEndEvent;
 import me.ultimate.ArenaAPI.ArenaEvents.ArenaStartEvent;
 import me.ultimate.ArenaAPI.ArenaEvents.PlayerJoinArenaEvent;
@@ -73,6 +74,8 @@ public class Arena {
     /** The players. */
     private List<String> players = new ArrayList<String>();
     
+    private boolean running = false;
+    
     /** The blocks. */
     private HashMap<Block, BlockState> blocks = new HashMap<Block, BlockState>();
     
@@ -103,6 +106,28 @@ public class Arena {
         return this.name;
     }
     
+    public List<Block> getBlocks() {
+        List<Block> blocks = new ArrayList<Block>();
+        int topBlockX = (l1.getBlockX() < l2.getBlockX() ? l2.getBlockX() : l1.getBlockX());
+        int bottomBlockX = (l1.getBlockX() > l2.getBlockX() ? l2.getBlockX() : l1.getBlockX());
+        
+        int topBlockY = (l1.getBlockY() < l2.getBlockY() ? l2.getBlockY() : l1.getBlockY());
+        int bottomBlockY = (l1.getBlockY() > l2.getBlockY() ? l2.getBlockY() : l1.getBlockY());
+        
+        int topBlockZ = (l1.getBlockZ() < l2.getBlockZ() ? l2.getBlockZ() : l1.getBlockZ());
+        int bottomBlockZ = (l1.getBlockZ() > l2.getBlockZ() ? l2.getBlockZ() : l1.getBlockZ());
+        
+        for (int x = bottomBlockX; x <= topBlockX; x++) {
+            for (int z = bottomBlockZ; z <= topBlockZ; z++) {
+                for (int y = bottomBlockY; y <= topBlockY; y++) {
+                    Block block = l1.getWorld().getBlockAt(x, y, z);
+                    blocks.add(block);
+                }
+            }
+        }
+        return blocks;
+    }
+    
     /**
      * Gets the world the arena is in.
      * 
@@ -114,14 +139,20 @@ public class Arena {
     
     public void reloadWorld(boolean randomSeed) {
         getWorld().setAutoSave(false);
-        String wName = getWorld().getName();
+        final String wName = getWorld().getName();
         long seed = getWorld().getSeed();
         Bukkit.getServer().unloadWorld(getWorld(), false);
         WorldCreator c = new WorldCreator(wName);
         if (!randomSeed) {
             c.seed(seed);
         }
-        this.world = Bukkit.getServer().createWorld(new WorldCreator(wName));
+        Bukkit.getScheduler().runTaskAsynchronously(ArenaAPIPlugin.instance, new Runnable() {
+            @Override
+            public void run() {
+                Bukkit.getServer().createWorld(new WorldCreator(wName));
+            }
+        });
+        this.world = Bukkit.getWorld(wName);
         getWorld().setAutoSave(true);
     }
     
@@ -207,6 +238,7 @@ public class Arena {
      * Starts the arena.
      */
     public void startGame() {
+        running = true;
         ArenaStartEvent event = new ArenaStartEvent();
         ArenaAPI.getEventHandler().callEvent(this, event);
         if (!event.isCancelled()) {
@@ -219,10 +251,15 @@ public class Arena {
         }
     }
     
+    public boolean isRunning() {
+        return running;
+    }
+    
     /**
      * Ends the arena.
      */
     public void endGame() {
+        running = false;
         ArenaEndEvent event = new ArenaEndEvent();
         ArenaAPI.getEventHandler().callEvent(this, event);
         for (String pName : players) {

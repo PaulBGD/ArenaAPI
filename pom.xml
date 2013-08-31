@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>ArenaAPI</groupId>
 	<artifactId>ArenaAPI</artifactId>
-	<version>0.0.1-dev</version>
+	<version>0.1.0-dev</version>
 	<name>ArenaAPI</name>
 	<description>ArenaAPI - API for the Bukkit API to add a easy way to make arenas</description>
 	<build>

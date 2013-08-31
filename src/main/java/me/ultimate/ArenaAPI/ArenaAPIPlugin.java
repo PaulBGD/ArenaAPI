@@ -40,12 +40,15 @@ public class ArenaAPIPlugin extends JavaPlugin {
     /** The Event Handler instance. */
     public static ArenaEventHandler ArenaEventHandler;
     
+    public static ArenaAPIPlugin instance;
+    
     /* (non-Javadoc)
      * @see org.bukkit.plugin.java.JavaPlugin#onEnable()
      */
     public void onEnable() {
         ArenaEventHandler = new ArenaEventHandler();
         reg(new BasicListeners());
+        instance = this;
     }
     
     /**

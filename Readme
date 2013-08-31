@@ -1,0 +1,45 @@
+Arena API
+
+To use this, you have to add the maven repo of course.
+
+<repositories>
+	<repository>
+		<id>ultimate-repo</id>
+		<url>http://ci.breezeyboy.com/plugin/repository/project/ArenaAPI/LastSuccessful/repository/</url>
+	</repository>
+</repositories>
+Then the dependancy:
+
+<dependancies>
+	<dependency>
+		<groupId>ArenaAPI</groupId>
+		<artifactId>ArenaAPI</artifactId>
+		<version>0.0.1-dev</version>
+	</dependency>
+</dependancies>
+And you're set up. Now you need to make an Arena object.
+
+Arena arena = new Arena("name", World, Location1, Location2);
+Then you need to set the warps like so:
+
+arena.setWarp(WarpType.type, Location);
+The types of warps can be found here2.
+
+Once you are done defining the arena, you have to register it by doing:
+
+ArenaAPI.registerArena(arena);
+And you have a fully functioning arena.
+
+But let's say you want to change a setting. You can do it like so:
+
+ArenaSettings settings = arena.getSettings();
+settings.set(AS.SETTING, true/false);
+arena.setSettings(settings);
+The different settings can be found here.
+
+I have also included a pretty simple listener setup. All you have to do is make a class that extends ArenaListener, and do the same thing you would do with bukkit methods except use @ArenaEvent instead of @EventHandler. Then you register it using:
+
+ArenaAPI.getEventHandler().addArenaListener(arena, Listener, plugin);
+All of the events you are listening to in the listener can ONLY happen inside the specific arena.
+
+If I can think of something else, I'll add it.
