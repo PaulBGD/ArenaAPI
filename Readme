@@ -14,7 +14,7 @@ Then the dependancy:
 	<dependency>
 		<groupId>ArenaAPI</groupId>
 		<artifactId>ArenaAPI</artifactId>
-		<version>0.0.1-dev</version>
+		<version>0.1.0-dev</version>
 	</dependency>
 </dependancies>
 And you're set up. Now you need to make an Arena object.

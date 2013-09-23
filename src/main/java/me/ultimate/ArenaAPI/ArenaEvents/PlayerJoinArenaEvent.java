@@ -27,6 +27,8 @@
  */
 package me.ultimate.ArenaAPI.ArenaEvents;
 
+import me.ultimate.ArenaAPI.Objects.Arena;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
@@ -44,6 +46,8 @@ public class PlayerJoinArenaEvent extends Event implements Cancellable {
     /** The player. */
     private Player player;
     
+    private Arena arena;
+    
     /** If cancelled. */
     private boolean cancelled;
     
@@ -55,13 +59,9 @@ public class PlayerJoinArenaEvent extends Event implements Cancellable {
         return handlers;
     }
     
-    /**
-     * Instantiates a new player join arena event.
-     *
-     * @param player the player
-     */
-    public PlayerJoinArenaEvent(Player player) {
+    public PlayerJoinArenaEvent(Player player, Arena arena) {
         this.player = player;
+        this.arena = arena;
     }
     
     /**
@@ -71,6 +71,10 @@ public class PlayerJoinArenaEvent extends Event implements Cancellable {
      */
     public Player getPlayer() {
         return this.player;
+    }
+    
+    public Arena getArena(){
+        return this.arena;
     }
     
     /* (non-Javadoc)

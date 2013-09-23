@@ -42,15 +42,6 @@ public class ArenaAPI {
     private static List<Arena> arenas = new ArrayList<Arena>();
     
     /**
-     * Gets the handler to handle all events.
-     *
-     * @return the event handler
-     */
-    public static ArenaEventHandler getEventHandler() {
-        return ArenaAPIPlugin.ArenaEventHandler;
-    }
-    
-    /**
      * Gets a list of all arenas.
      *
      * @return the arenas

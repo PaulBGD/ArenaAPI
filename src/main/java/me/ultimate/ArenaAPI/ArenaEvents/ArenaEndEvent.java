@@ -27,6 +27,8 @@
  */
 package me.ultimate.ArenaAPI.ArenaEvents;
 
+import me.ultimate.ArenaAPI.Objects.Arena;
+
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
@@ -38,6 +40,16 @@ public class ArenaEndEvent extends Event {
     
     /** The Constant handlers. */
     private static final HandlerList handlers = new HandlerList();
+    
+    private Arena arena;
+    
+    public ArenaEndEvent(Arena arena){
+        this.arena = arena;
+    }
+    
+    public Arena getArena(){
+        return this.arena;
+    }
     
     /* (non-Javadoc)
      * @see org.bukkit.event.Event#getHandlers()

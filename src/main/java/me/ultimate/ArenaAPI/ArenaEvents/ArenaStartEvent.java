@@ -27,6 +27,8 @@
  */
 package me.ultimate.ArenaAPI.ArenaEvents;
 
+import me.ultimate.ArenaAPI.Objects.Arena;
+
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
@@ -42,6 +44,16 @@ public class ArenaStartEvent extends Event implements Cancellable {
     
     /** If cancelled. */
     private boolean cancelled;
+    
+    private Arena arena;
+    
+    public ArenaStartEvent(Arena arena){
+        this.arena = arena;
+    }
+    
+    public Arena getArena(){
+        return this.arena;
+    }
     
     /* (non-Javadoc)
      * @see org.bukkit.event.Event#getHandlers()

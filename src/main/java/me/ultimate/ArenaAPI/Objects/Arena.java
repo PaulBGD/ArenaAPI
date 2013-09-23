@@ -214,8 +214,8 @@ public class Arena {
      * @param p the player
      */
     public void addPlayer(Player p) {
-        PlayerJoinArenaEvent event = new PlayerJoinArenaEvent(p);
-        ArenaAPI.getEventHandler().callEvent(this, event);
+        PlayerJoinArenaEvent event = new PlayerJoinArenaEvent(p, this);
+        Bukkit.getPluginManager().callEvent(event);
         if (!event.isCancelled()) {
             players.add(p.getName());
             p.teleport(getWarp(WarpType.LOBBY));
@@ -228,8 +228,8 @@ public class Arena {
      * @param p the player
      */
     public void removePlayer(Player p) {
-        PlayerLeaveArenaEvent event = new PlayerLeaveArenaEvent(p);
-        ArenaAPI.getEventHandler().callEvent(this, event);
+        PlayerLeaveArenaEvent event = new PlayerLeaveArenaEvent(p, this);
+        Bukkit.getPluginManager().callEvent(event);
         players.remove(p.getName());
         p.teleport(getWarp(WarpType.LOSE));
     }
@@ -239,8 +239,8 @@ public class Arena {
      */
     public void startGame() {
         running = true;
-        ArenaStartEvent event = new ArenaStartEvent();
-        ArenaAPI.getEventHandler().callEvent(this, event);
+        ArenaStartEvent event = new ArenaStartEvent(this);
+        Bukkit.getPluginManager().callEvent(event);
         if (!event.isCancelled()) {
             for (String pName : players) {
                 Player p = Bukkit.getPlayerExact(pName);
@@ -260,8 +260,8 @@ public class Arena {
      */
     public void endGame() {
         running = false;
-        ArenaEndEvent event = new ArenaEndEvent();
-        ArenaAPI.getEventHandler().callEvent(this, event);
+        ArenaEndEvent event = new ArenaEndEvent(this);
+        Bukkit.getPluginManager().callEvent(event);
         for (String pName : players) {
             Player p = Bukkit.getPlayerExact(pName);
             p.teleport(getWarp(WarpType.LOSE));
@@ -296,16 +296,7 @@ public class Arena {
      */
     public boolean insideArena(Location l) {
         if (l.getWorld().getName() == l2.getWorld().getName()) {
-            if ((l.getBlockX() >= l1.getBlockX() && l.getBlockX() <= l2.getBlockX())
-                    || (l.getBlockX() <= l1.getBlockX() && l.getBlockX() >= l2.getBlockX())) {
-                if ((l.getBlockZ() >= l1.getBlockZ() && l.getBlockZ() <= l2.getBlockZ())
-                        || (l.getBlockZ() <= l1.getBlockZ() && l.getBlockZ() >= l2.getBlockZ())) {
-                    if ((l.getBlockY() >= l1.getBlockY() && l.getBlockY() <= l2.getBlockY())
-                            || (l.getBlockY() <= l1.getBlockY() && l.getBlockY() >= l2.getBlockY())) {
-                        return true;
-                    }
-                }
-            }
+            return l.toVector().isInAABB(l1.toVector(), l2.toVector());
         }
         return false;
     }
@@ -314,6 +305,7 @@ public class Arena {
      * Save the arena blocks.
      */
     public void saveArena() {
+        blocks.clear();
         int topBlockX = (l1.getBlockX() < l2.getBlockX() ? l2.getBlockX() : l1.getBlockX());
         int bottomBlockX = (l1.getBlockX() > l2.getBlockX() ? l2.getBlockX() : l1.getBlockX());
         int topBlockY = (l1.getBlockY() < l2.getBlockY() ? l2.getBlockY() : l1.getBlockY());
@@ -335,6 +327,7 @@ public class Arena {
     /**
      * Reloads all of the arena blocks.
      */
+    @SuppressWarnings("deprecation")
     public void loadArena() {
         for (Map.Entry<Block, BlockState> entry : blocks.entrySet()) {
             Block b = entry.getKey();

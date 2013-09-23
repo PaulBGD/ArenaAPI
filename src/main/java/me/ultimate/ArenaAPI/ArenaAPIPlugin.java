@@ -27,8 +27,6 @@
  */
 package me.ultimate.ArenaAPI;
 
-import me.ultimate.ArenaAPI.Listeners.BasicListeners;
-
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -37,17 +35,12 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 public class ArenaAPIPlugin extends JavaPlugin {
     
-    /** The Event Handler instance. */
-    public static ArenaEventHandler ArenaEventHandler;
-    
     public static ArenaAPIPlugin instance;
     
     /* (non-Javadoc)
      * @see org.bukkit.plugin.java.JavaPlugin#onEnable()
      */
     public void onEnable() {
-        ArenaEventHandler = new ArenaEventHandler();
-        reg(new BasicListeners());
         instance = this;
     }
     
@@ -56,6 +49,7 @@ public class ArenaAPIPlugin extends JavaPlugin {
      *
      * @param l the listener
      */
+    @SuppressWarnings("unused")
     private void reg(Listener l){
         getServer().getPluginManager().registerEvents(l, this);
     }

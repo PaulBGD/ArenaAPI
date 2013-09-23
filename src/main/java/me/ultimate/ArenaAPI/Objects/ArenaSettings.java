@@ -94,8 +94,6 @@ public class ArenaSettings {
         public void set(AS as, boolean v) {
             if (sets.containsKey(as)) {
                 sets.remove(as);
-                sets.put(as, v);
-                return;
             }
             sets.put(as, v);
         }

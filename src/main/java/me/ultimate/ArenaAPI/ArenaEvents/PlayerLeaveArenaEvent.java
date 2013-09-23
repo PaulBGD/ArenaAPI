@@ -27,6 +27,8 @@
  */
 package me.ultimate.ArenaAPI.ArenaEvents;
 
+import me.ultimate.ArenaAPI.Objects.Arena;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
@@ -43,6 +45,8 @@ public class PlayerLeaveArenaEvent extends Event {
     /** The player. */
     private Player player;
     
+    private Arena arena;
+    
     /* (non-Javadoc)
      * @see org.bukkit.event.Event#getHandlers()
      */
@@ -51,13 +55,9 @@ public class PlayerLeaveArenaEvent extends Event {
         return handlers;
     }
     
-    /**
-     * Instantiates a new player leave arena event.
-     *
-     * @param player the player
-     */
-    public PlayerLeaveArenaEvent(Player player) {
+    public PlayerLeaveArenaEvent(Player player, Arena arena) {
         this.player = player;
+        this.arena = arena;
     }
     
     /**
@@ -67,6 +67,10 @@ public class PlayerLeaveArenaEvent extends Event {
      */
     public Player getPlayer() {
         return this.player;
+    }
+    
+    public Arena getArena(){
+        return this.arena;
     }
     
 }
