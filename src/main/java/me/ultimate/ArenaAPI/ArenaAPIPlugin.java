@@ -43,14 +43,4 @@ public class ArenaAPIPlugin extends JavaPlugin {
     public void onEnable() {
         instance = this;
     }
-    
-    /**
-     * Used to register a Bukkit Listener
-     *
-     * @param l the listener
-     */
-    @SuppressWarnings("unused")
-    private void reg(Listener l){
-        getServer().getPluginManager().registerEvents(l, this);
-    }
 }
